@@ -1,5 +1,15 @@
 package com.example.oriltesttask.scheduler;
 
+import com.example.oriltesttask.model.dto.PriceDto;
+import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
+
+@AllArgsConstructor
+@Slf4j
+@Service
 public class ScheduledCurrencyRestClient {
 
   /*  You need to create a cron job timer that runs every 10 seconds and pulls cryptocurrency last prices from CEX.IO.
@@ -19,4 +29,33 @@ public class ScheduledCurrencyRestClient {
           "curr2": "USD"
       }
    */
+
+// currency list and url of api
+private final String BTC = "BTC/USD";
+private final String ETH =  "ETH/USD";
+private final String XRP =  "XRP/USD";
+private final String URL = "https://cex.io/api/last_price/";
+
+
+
+
+private final RestTemplate restTemplate;
+
+
+@Scheduled(fixedRate = 10000)   // schedule every 10 seconds
+public void fetchFromApiAndSave(){
+    PriceDto btc = getLastPrice(BTC);
+    PriceDto eth = getLastPrice(ETH);
+    PriceDto xrp = getLastPrice(XRP);
+    log.info("btc"+btc.getLprice()+ "XRP "+ xrp.getLprice() + "Eth " + eth.getLprice());
+
+}
+
+
+public PriceDto getLastPrice(String currency){
+    return restTemplate.getForObject(URL+currency,PriceDto.class);
+}
+
+
+
 }
