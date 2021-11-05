@@ -4,8 +4,8 @@ import org.springframework.web.bind.annotation.Mapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-/*@RestController
-@RequestMapping("/currencies")*/
+@RestController
+@RequestMapping("/currencies")
 public class CurrenciesController {
 
    /* Rest Endpoints.
@@ -21,6 +21,8 @@ public class CurrenciesController {
     elements from database, sorted by price from lowest to highest. [page_number] and [page_size] request parameters should be optional,
     so if they are missing then you should set them default values page=0, size=10.
 */
+
+
 
 
 
