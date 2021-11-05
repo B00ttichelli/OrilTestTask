@@ -1,11 +1,14 @@
 package com.example.oriltesttask.controller;
 
-import org.springframework.web.bind.annotation.Mapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.example.oriltesttask.service.CurrencyService;
+import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/currencies")
+@RequestMapping("/cryptocurrencies")
+@AllArgsConstructor
 public class CurrenciesController {
 
    /* Rest Endpoints.
@@ -23,8 +26,20 @@ public class CurrenciesController {
 */
 
 
+   private final CurrencyService currencyService;
+    @GetMapping("/minprice")
+    ResponseEntity<String> getMinPriceByName(@RequestParam String name ){
 
+        return new ResponseEntity<>(currencyService.getMinPriceByName(name), HttpStatus.OK);
 
+    }
+
+    @GetMapping("/maxprice")
+
+    ResponseEntity<String> getMaxPriceByName(@RequestParam String name){
+
+        return new ResponseEntity<>(currencyService.getMaxPriceByName(name),HttpStatus.OK);
+    }
 
 
 }
