@@ -6,6 +6,7 @@ import org.springframework.data.domain.Pageable;
 import java.util.Map;
 
 public interface CurrencyService {
+
     void save(PriceDto priceDto);
 
     String getMinPriceByName(String name);

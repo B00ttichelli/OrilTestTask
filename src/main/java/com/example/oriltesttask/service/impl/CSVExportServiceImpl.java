@@ -1,5 +1,7 @@
 package com.example.oriltesttask.service.impl;
 
+import com.example.oriltesttask.dto.MaxMinPriceDto;
+import com.example.oriltesttask.exception.CustomException;
 import com.example.oriltesttask.repository.CurrencyRepository;
 import com.example.oriltesttask.service.CSVExportService;
 import lombok.AllArgsConstructor;
@@ -7,7 +9,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVPrinter;
 import org.springframework.stereotype.Service;
-import com.example.oriltesttask.dto.MaxMinPriceDto;
 
 import java.io.IOException;
 import java.io.Writer;
@@ -24,13 +25,15 @@ public class CSVExportServiceImpl implements CSVExportService {
             MaxMinPriceDto btc = creatFromRepository("BTC");
             MaxMinPriceDto eth = creatFromRepository("ETH");
             MaxMinPriceDto xrp = creatFromRepository("XRP");
-            try (CSVPrinter csvPrinter = new CSVPrinter(writer, CSVFormat.DEFAULT)){
+
+        try (CSVPrinter csvPrinter = new CSVPrinter(writer, CSVFormat.DEFAULT)){
                     csvPrinter.printRecord(btc.getName(),btc.getMinPrice(),btc.getMaxPrice());
                     csvPrinter.printRecord(eth.getName(),eth.getMinPrice(),eth.getMaxPrice());
                     csvPrinter.printRecord(xrp.getName(),xrp.getMinPrice(),xrp.getMaxPrice());
 
             } catch (IOException e) {
                 log.error("CSVExportServiceImpl: Error while writing csv");
+            throw new CustomException("SVExportServiceImpl: Error while writing csv");
             }
     }
 

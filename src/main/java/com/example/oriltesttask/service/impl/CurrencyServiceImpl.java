@@ -1,5 +1,6 @@
 package com.example.oriltesttask.service.impl;
 
+import com.example.oriltesttask.exception.CustomException;
 import com.example.oriltesttask.mapper.CurrencyMapper;
 import com.example.oriltesttask.domain.CurrencyPrice;
 import com.example.oriltesttask.dto.PriceDto;
@@ -27,13 +28,20 @@ public class CurrencyServiceImpl implements CurrencyService {
 
     @Override
     public String getMinPriceByName(String name) {
-        CurrencyPrice firstByNameOOrderByPriceDesc = currencyRepository.findFirstByNameOrderByPriceAsc(name);
-        return firstByNameOOrderByPriceDesc.getPrice().toString();
+        CurrencyPrice firstByNameOrderByPriceAsc = currencyRepository.findFirstByNameOrderByPriceAsc(name);
+        if(firstByNameOrderByPriceAsc == null){
+            throw  new CustomException("Currency name is invalid or DB is empty");
+        }
+        return firstByNameOrderByPriceAsc.getPrice().toString();
     }
 
     @Override
     public String getMaxPriceByName(String name) {
         CurrencyPrice firstByNameOrderByPriceDesc = currencyRepository.findFirstByNameOrderByPriceDesc(name);
+
+        if(firstByNameOrderByPriceDesc == null){
+            throw  new CustomException("Currency name is invalid or DB is empty");
+        }
         return firstByNameOrderByPriceDesc.getPrice().toString();
     }
 
@@ -41,6 +49,9 @@ public class CurrencyServiceImpl implements CurrencyService {
     public Map<String, Object> findAllByNamePageable(String name, Pageable pageable) {
         Map<String,Object> result = new HashMap<>();
         Page<CurrencyPrice> page = currencyRepository.findAllByName(name,pageable);
+        if(page == null){
+            throw  new CustomException("Currency name is invalid or DB is empty");
+        }
         result.put("Currencies",page.getContent());
         result.put("CurrentPage",page.getNumber());
         result.put("totalItems:",page.getTotalElements());
