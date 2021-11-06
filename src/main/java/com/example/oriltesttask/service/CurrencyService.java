@@ -1,6 +1,6 @@
 package com.example.oriltesttask.service;
 
-import com.example.oriltesttask.model.dto.PriceDto;
+import com.example.oriltesttask.dto.PriceDto;
 import org.springframework.data.domain.Pageable;
 
 import java.util.Map;

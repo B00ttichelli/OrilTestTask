@@ -1,4 +1,4 @@
-package com.example.oriltesttask.model.dto;
+package com.example.oriltesttask.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

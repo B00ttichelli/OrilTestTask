@@ -1,4 +1,4 @@
-package com.example.oriltesttask.model;
+package com.example.oriltesttask.domain;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

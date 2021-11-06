@@ -1,9 +1,10 @@
-package com.example.oriltesttask.service;
+package com.example.oriltesttask.service.impl;
 
 import com.example.oriltesttask.mapper.CurrencyMapper;
-import com.example.oriltesttask.model.CurrencyPrice;
-import com.example.oriltesttask.model.dto.PriceDto;
+import com.example.oriltesttask.domain.CurrencyPrice;
+import com.example.oriltesttask.dto.PriceDto;
 import com.example.oriltesttask.repository.CurrencyRepository;
+import com.example.oriltesttask.service.CurrencyService;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

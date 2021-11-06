@@ -1,8 +1,7 @@
 package com.example.oriltesttask.mapper;
 
-import com.example.oriltesttask.model.CurrencyPrice;
-import com.example.oriltesttask.model.dto.PriceDto;
-import org.springframework.stereotype.Component;
+import com.example.oriltesttask.domain.CurrencyPrice;
+import com.example.oriltesttask.dto.PriceDto;
 
 public interface CurrencyMapper {
     CurrencyPrice PriceDtoToCurrencyPrice (PriceDto priceDto);

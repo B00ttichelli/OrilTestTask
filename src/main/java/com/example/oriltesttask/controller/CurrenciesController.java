@@ -1,5 +1,6 @@
 package com.example.oriltesttask.controller;
 
+import com.example.oriltesttask.service.CSVExportService;
 import com.example.oriltesttask.service.CurrencyService;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.PageRequest;
@@ -12,6 +13,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.Map;
 
 
@@ -36,6 +40,7 @@ public class CurrenciesController {
 
 
    private final CurrencyService currencyService;
+   private final CSVExportService csvExportService;
     @GetMapping("/minprice")
     ResponseEntity<String> getMinPriceByName(@RequestParam String name ){
 
@@ -51,14 +56,25 @@ public class CurrenciesController {
 
     @GetMapping
     ResponseEntity<Map<String, Object>> getCurrencyByNamePagination(@RequestParam String name,
-                                                                    @RequestParam int page,
-                                                                    @RequestParam int size) {
+                                                                    @RequestParam(defaultValue = "0") int page,
+                                                                    @RequestParam(defaultValue = "10") int size) {
 
-        Pageable pageable = PageRequest.of(page, size, Sort.Direction.DESC, "price");
+        Pageable pageable = PageRequest.of(page, size, Sort.Direction.ASC, "price"); //sorted by price from lowest to highest.
         Map<String, Object> response = currencyService.findAllByNamePageable(name, pageable);
 
 
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
+
+    @GetMapping("/csv")
+
+    public void getCSV(HttpServletResponse response) throws IOException {
+        response.setContentType("text/csv");
+        response.addHeader("Content-Disposition","attachment; filename=\"currencies.csv\"");
+        csvExportService.writeMaxAndMinPriceToCSV(response.getWriter());
+    }
+
+
+
 
 }
